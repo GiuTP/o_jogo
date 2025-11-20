@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "player.h"
+#include "world.h"
 
 #define X_SCREEN 1280
 #define Y_SCREEN 720
@@ -20,8 +21,9 @@ int main(){
     // Primeiras inicializacoes
     INIT_TEST(al_init(), "allegro");
     INIT_TEST(al_install_keyboard(), "telado");
-    INIT_TEST(al_init_image_addon(), "font addon");
+    INIT_TEST(al_init_font_addon(), "font addon");
     INIT_TEST(al_init_image_addon(), "image addon");
+    INIT_TEST(al_init_primitives_addon(), "primitives addon");
 
     // Inicializacoes das variaveis basicas
     ALLEGRO_TIMER *timer = al_create_timer(1.0 / 60.0);
@@ -54,11 +56,15 @@ int main(){
     Player *giuliano = player_init(spritesheet_player_giuliano);
     INIT_TEST(giuliano, "jogador");
 
+    World *world = world_init();
+    INIT_TEST(world, "mundo");
+
     // Variaveis de controle
     bool done = false;
     bool redraw = true;
     ALLEGRO_EVENT ev;
     ALLEGRO_KEYBOARD_STATE ks;
+    float camera_x = 0;
 
     al_start_timer(timer);
     while(!done){
@@ -68,7 +74,15 @@ int main(){
             case ALLEGRO_EVENT_TIMER:
                 // ----- LÓGICA -----
                 al_get_keyboard_state(&ks);
-                giuliano->update(giuliano, &ks); // CHAMA O UPDATE
+                giuliano->update(giuliano, &ks, world); // CHAMA O UPDATE
+                float player_center_x = giuliano->pos_x + (16 * 5.0 / 2);
+                camera_x = player_center_x - 640;
+                
+                if (camera_x < 0) camera_x = 0;
+
+                float largura_mundo = 7 * (256 * 5.0);
+                if (camera_x > largura_mundo - 1280) camera_x = largura_mundo - 1280;
+                
                 redraw = true;
                 break;
 
@@ -85,38 +99,15 @@ int main(){
         // ----- DESENHO -----
         if (redraw && al_is_event_queue_empty(queue)){
             al_clear_to_color(al_map_rgb(255, 255, 255)); // Fundo cinza escuro
-            al_draw_text(font, al_map_rgb(255, 255, 255), 10, 10, 0, "TESTE - Aperte ESC para sair");
+            al_draw_text(font, al_map_rgb(0, 0, 0), 10, 10, 0, "TESTE - Aperte ESC para sair");
             
-            giuliano->draw(giuliano); // CHAMA O DRAW
+            world->draw(world, camera_x);
+            giuliano->draw(giuliano, camera_x);
 
             al_flip_display();
             redraw = false;
         }
-        // al_wait_for_event(queue, &ev);
-
-        // switch (ev.type){
-        //     case ALLEGRO_EVENT_TIMER :
-        //         redraw = true;
-        //         break;
-        //     case ALLEGRO_EVENT_KEY_DOWN:
-        //     case ALLEGRO_EVENT_DISPLAY_CLOSE:
-        //         done = true;
-        //         break; 
-        // }
-
-        // if (done)
-        //     break;
         
-        // if (redraw && al_is_event_queue_empty(queue)){
-        //     al_clear_to_color(al_map_rgb(0, 0, 0));
-
-        //     al_draw_text(font, al_map_rgb(50, 120, 200), 500, 500 , 0, "Hello World!");
-        //     al_draw_bitmap(spritesheet_player_giuliano, 0, 0, 0);
-
-        //     al_flip_display();
-        //     redraw = false;
-            
-        // }
     }
 
     al_destroy_font(font);

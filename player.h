@@ -3,6 +3,7 @@
 
 #include <allegro5/allegro5.h>
 #include <allegro5/keyboard.h>
+#include "world.h"
 
 // Constantes do player
 #define PLAYER_WIDTH_FRAME 32
@@ -16,17 +17,19 @@ struct player{
     // Posicao e movimento
     float pos_x, pos_y;                 // Posição do player
     float vel_x, vel_y;                 // Velocidade do player
+
+    // Estado
     bool on_ground;
     bool duck;
+    bool andando;                       // Indica se o player está andando
 
     // Animacao
+    double tempo_animacao;              // Tempo de animação do player
     int frame_atual;                    // Quadro atual do player
     int sprite_y_origem;                // Origem da imagem do player
-    bool andando;                       // Indica se o player está andando
-    double tempo_animacao;              // Tempo de animação do player
     float escala;                       // Escala do player
     ALLEGRO_BITMAP *spritesheet;        // Quadros do player
-
+    
     // Status
     // int vida;                           // Vida do player
     // bool invencivel;                    // Indica se o player esta invencivel
@@ -34,8 +37,8 @@ struct player{
 
 
     // ------- ""Metodos"" do player -------
-    void (*update)(Player *self, ALLEGRO_KEYBOARD_STATE *ks); // Atualiza o player
-    void (*draw)(Player *self);                               // Desenha o player
+    void (*update)(Player *self, ALLEGRO_KEYBOARD_STATE *ks, World *world); // Atualiza o player
+    void (*draw)(Player *self, float camera_x);                               // Desenha o player
     // void (*take_damage)(Player *self);                        // Tomar dano
     void (*destroy)(Player *self);                            // ""Destrutor"" o player
 };
