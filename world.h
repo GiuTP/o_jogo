@@ -16,7 +16,9 @@ enum{
     PLAT_TYPE_DANGER,
     PLAT_TYPE_ICE_BLOCK,
     PLAT_TYPE_ICE_FLOOR,
-    PLAT_TYPE_BAMBOO
+    PLAT_TYPE_BAMBOO,
+    PLAT_TYPE_TANK,
+    PLAT_TYPE_WAVE
 };
 
 typedef struct {

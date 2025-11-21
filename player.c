@@ -203,7 +203,7 @@ static void player_animacao(Player *p){
     p->frame_atual = 0;
 }
 
-void player_update_func(Player *self, ALLEGRO_KEYBOARD_STATE *ks, World *world){
+static void player_update_func(Player *self, ALLEGRO_KEYBOARD_STATE *ks, World *world){
     
     player_aplicar_gravidade(self);
     player_pular(self, ks, world);
@@ -214,7 +214,7 @@ void player_update_func(Player *self, ALLEGRO_KEYBOARD_STATE *ks, World *world){
     
 }
 
-void player_draw_func(Player *self, float camera_x){
+static void player_draw_func(Player *self, float camera_x){
     int sprite_x_origem = self->frame_atual * PLAYER_WIDTH_FRAME;
 
     al_draw_scaled_bitmap(
@@ -239,7 +239,7 @@ void player_draw_func(Player *self, float camera_x){
 
 // }
 
-void player_destroy_func(Player *self){
+static void player_destroy_func(Player *self){
     free(self);
 }
 
