@@ -6,11 +6,17 @@
 #include <allegro5/allegro_primitives.h>
 
 #define NUM_BG 7
+#define TILESET_SIZE 32
 
 enum{
     PLAT_TYPE_BLOCK,
+    PLAT_TYPE_BLOCK_BG,
     PLAT_TYPE_ONE_WAY,
-    PLAT_TYPE_DANGER
+    PLAT_TYPE_ONE_WAY_BG,
+    PLAT_TYPE_DANGER,
+    PLAT_TYPE_ICE_BLOCK,
+    PLAT_TYPE_ICE_FLOOR,
+    PLAT_TYPE_BAMBOO
 };
 
 typedef struct {
@@ -26,6 +32,7 @@ struct world{
 
     // Visual
     ALLEGRO_BITMAP *bg_img[NUM_BG];
+    ALLEGRO_BITMAP *tileset[TILESET_SIZE];
     float escala;
     
     // Fisica (retangulos de colisão)

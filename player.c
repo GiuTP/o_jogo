@@ -12,7 +12,10 @@
 #define LEVEL_BORDER_LEFT 0
 #define LEVEL_BORDER_RIGHT 1280
 #define PLAYER_HITBOX_WIDTH 9
-#define PLAYER_HITBOX_OFFSET 11
+#define PLAYER_HITBOX_OFFSET_X 11
+
+#define PLAYER_HITBOX_HEIGHT 18
+#define PLAYER_HITBOX_OFFSET_Y 7
 
 static int check_aabb_collision(float x1, float y1, float w1, float h1,
                                 float x2, float y2, float w2, float h2){
@@ -56,20 +59,25 @@ static void player_andar(Player *p, ALLEGRO_KEYBOARD_STATE *key_state, World *w)
     p->pos_x += p->vel_x;
 
     float pw = PLAYER_HITBOX_WIDTH * p->escala;
-    float ph = PLAYER_HEIGHT_FRAME * p->escala;
-    float px = p->pos_x + (PLAYER_HITBOX_OFFSET * p->escala);
-    float py = p->pos_y;
+    float px = p->pos_x + (PLAYER_HITBOX_OFFSET_X * p->escala);
+    float ph = PLAYER_HITBOX_HEIGHT * p->escala;
+    float py = p->pos_y + (PLAYER_HITBOX_OFFSET_Y * p->escala);
 
     for (int i = 0; i < w->num_plataforms; i++){
         Plataform plat = w->plataforms[i];
 
-        if (plat.type == PLAT_TYPE_BLOCK){
+        bool eh_solido = (plat.type == PLAT_TYPE_BLOCK ||
+                          plat.type == PLAT_TYPE_BLOCK_BG ||
+                          plat.type == PLAT_TYPE_ICE_BLOCK ||
+                          plat.type == PLAT_TYPE_ICE_FLOOR || 
+                          plat.type == PLAT_TYPE_BAMBOO);
+        if (eh_solido){
             if (check_aabb_collision(px, py, pw, ph, plat.x, plat.y, plat.w, plat.h)){
                 if (p->vel_x > 0){
-                    p->pos_x = plat.x - (PLAYER_HITBOX_OFFSET * p->escala) - pw;
+                    p->pos_x = plat.x - (PLAYER_HITBOX_OFFSET_X * p->escala) - pw;
                 }
                 else if (p->vel_x < 0){
-                    p->pos_x = plat.x + plat.w + (PLAYER_HITBOX_OFFSET * p->escala);
+                    p->pos_x = plat.x + plat.w - (PLAYER_HITBOX_OFFSET_X * p->escala);
                 }
                 p->vel_x = 0;
             }
@@ -88,29 +96,38 @@ static void player_pular(Player *p, ALLEGRO_KEYBOARD_STATE *key_state, World *w)
     p->on_ground = false;
 
     float pw = PLAYER_HITBOX_WIDTH * p->escala;
-    float ph = PLAYER_HEIGHT_FRAME * p->escala;
-    float px = p->pos_x + (PLAYER_HITBOX_OFFSET * p->escala);
-    float py = p->pos_y;
+    float px = p->pos_x + (PLAYER_HITBOX_OFFSET_X * p->escala);
+    float ph = PLAYER_HITBOX_HEIGHT * p->escala;
+    float py = p->pos_y + (PLAYER_HITBOX_OFFSET_Y * p->escala);
 
     for(int i = 0; i < w->num_plataforms; i++){
         Plataform plat = w->plataforms[i];
 
         if (check_aabb_collision(px, py, pw, ph, plat.x, plat.y, plat.w, plat.h)){
-            if (plat.type == PLAT_TYPE_BLOCK){
+            bool eh_solido = (plat.type == PLAT_TYPE_BLOCK ||
+                              plat.type == PLAT_TYPE_BLOCK_BG ||
+                              plat.type == PLAT_TYPE_ICE_BLOCK ||
+                              plat.type == PLAT_TYPE_ICE_FLOOR || 
+                              plat.type == PLAT_TYPE_BAMBOO);
+
+            if (eh_solido){
                 if(p->vel_y > 0){
-                    p->pos_y = plat.y - ph;
+                    p->pos_y = plat.y - ph - (PLAYER_HITBOX_OFFSET_Y * p->escala);
                     p->vel_y = 0;
                     p->on_ground = true;
                 }
                 else if(p->vel_y < 0){
-                    p->pos_y = plat.y + plat.h;
+                    p->pos_y = plat.y + plat.h - (PLAYER_HITBOX_OFFSET_Y * p->escala);
                     p->vel_y = 0;
                 }
             }
-            else if (plat.type == PLAT_TYPE_ONE_WAY){
+
+            bool eh_one_way = (plat.type == PLAT_TYPE_ONE_WAY)
+                              || (plat.type == PLAT_TYPE_ONE_WAY_BG);
+            if (eh_one_way){
                 float pe_do_player = py + ph;
-                if (p->vel_y >= 0 && (pe_do_player - p->vel_y) <= plat.y + 10){
-                    p->pos_y = plat.y - ph;
+                if (p->vel_y >= 0 && pe_do_player <= plat.y + 15){
+                    p->pos_y = plat.y - ph - (PLAYER_HITBOX_OFFSET_Y * p->escala);
                     p->vel_y = 0;
                     p->on_ground = true;
                 }
@@ -128,11 +145,11 @@ static void player_abaixar(Player *p, ALLEGRO_KEYBOARD_STATE *key_state){
 }
 
 static float player_border_left (Player *p){
-    return p->pos_x + PLAYER_HITBOX_OFFSET * p->escala;
+    return p->pos_x + PLAYER_HITBOX_OFFSET_X * p->escala;
 }
 
 static float player_border_right (Player *p){
-    return p->pos_x + PLAYER_HITBOX_OFFSET * p->escala + PLAYER_HITBOX_WIDTH * p->escala;
+    return p->pos_x + PLAYER_HITBOX_OFFSET_X * p->escala + PLAYER_HITBOX_WIDTH * p->escala;
 }
 
 static void player_bordas(Player *p){
@@ -140,14 +157,14 @@ static void player_bordas(Player *p){
     float visual_right_edge = player_border_right(p);
 
     if (visual_left_edge < 0){
-        p->pos_x = 0 - PLAYER_HITBOX_OFFSET * p->escala;
+        p->pos_x = 0 - PLAYER_HITBOX_OFFSET_X * p->escala;
     }
 
     float largura_bg = 256 * p->escala;
     float limite_mundo = NUM_BG * largura_bg;
 
     if (visual_right_edge > limite_mundo){
-        p->pos_x = limite_mundo - PLAYER_HITBOX_OFFSET * p->escala - PLAYER_HITBOX_WIDTH * p->escala;
+        p->pos_x = limite_mundo - PLAYER_HITBOX_OFFSET_X * p->escala - PLAYER_HITBOX_WIDTH * p->escala;
     }
     
 }

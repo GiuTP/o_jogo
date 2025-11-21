@@ -8,7 +8,7 @@
 // Constantes do player
 #define PLAYER_WIDTH_FRAME 32
 #define PLAYER_HEIGHT_FRAME 32
-#define PLAYER_SPEED 4.0
+#define PLAYER_SPEED 12.0
 
 typedef struct player Player;
 struct player{
