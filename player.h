@@ -31,9 +31,9 @@ struct player{
     ALLEGRO_BITMAP *spritesheet;        // Quadros do player
     
     // Status
-    // int vida;                           // Vida do player
-    // bool invencivel;                    // Indica se o player esta invencivel
-    // int tempo_invencibilidade_inicio;   // Tempo de invencibilidade
+    int vida;                           // Vida do player
+    bool invencivel;                    // Indica se o player esta invencivel
+    int tempo_invencibilidade_inicio;   // Tempo de invencibilidade
 
 
     // ------- ""Metodos"" do player -------

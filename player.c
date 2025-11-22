@@ -265,6 +265,11 @@ Player *player_init(ALLEGRO_BITMAP *spritesheet){
         .escala = 5.0,
         .spritesheet = spritesheet,
 
+        // Status
+        .vida = 3,
+        .invencivel = false,
+        .tempo_invencibilidade_inicio = 0,
+
         // ""Métodos"" do player
         .update = player_update_func,
         .draw = player_draw_func,

@@ -5,6 +5,7 @@
 
 #include "player.h"
 #include "world.h"
+#include "entity.h"
 
 #define X_SCREEN 1280
 #define Y_SCREEN 720
@@ -59,6 +60,13 @@ int main(){
     World *world = world_init();
     INIT_TEST(world, "mundo");
 
+    EntitiesManager *enemies = entity_init(5.0);
+    INIT_TEST(enemies, "inimigos");
+
+    enemies->spawn(enemies, ENT_PENGUIN, 200 * 5.0, 100 * 5.0, 100);
+    enemies->spawn(enemies, ENT_BEE, 300 * 5.0, 80 * 5.0, 0);
+    enemies->spawn(enemies, ENT_PANDA, 400 * 5.0, 80 * 5.0, 0);
+
     // Variaveis de controle
     bool done = false;
     bool redraw = true;
@@ -74,6 +82,7 @@ int main(){
             case ALLEGRO_EVENT_TIMER:
                 // ----- LÓGICA -----
                 al_get_keyboard_state(&ks);
+                enemies->update(enemies, giuliano);
                 giuliano->update(giuliano, &ks, world); // CHAMA O UPDATE
                 float player_center_x = giuliano->pos_x + (16 * 5.0 / 2);
                 camera_x = player_center_x - 640;
@@ -99,9 +108,9 @@ int main(){
         // ----- DESENHO -----
         if (redraw && al_is_event_queue_empty(queue)){
             al_clear_to_color(al_map_rgb(255, 255, 255)); // Fundo cinza escuro
-            al_draw_text(font, al_map_rgb(0, 0, 0), 10, 10, 0, "TESTE - Aperte ESC para sair");
             
             world->draw(world, camera_x);
+            enemies->draw(enemies, camera_x);
             giuliano->draw(giuliano, camera_x);
 
             al_flip_display();
