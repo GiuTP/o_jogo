@@ -12,9 +12,9 @@
   <p align="center">
     Um jogo de plataforma 2D autoral desenvolvido em C com Allegro 5 — trabalho final da disciplina Programação 2 (CI1002) na UFPR.
     <br />
-    <a href="https://github.com/GiuTP/Zoo-Chaos/issues/new?labels=bug">Reportar Bug</a>
+    <a href="https://github.com/giutp/zoo-chaos/issues/new?labels=bug">Reportar Bug</a>
     &middot;
-    <a href="https://github.com/GiuTP/Zoo-Chaos/issues/new?labels=enhancement">Sugerir Melhoria</a>
+    <a href="https://github.com/giutp/zoo-chaos/issues/new?labels=enhancement">Sugerir Melhoria</a>
   </p>
 </div>
 
@@ -144,7 +144,7 @@ A trilha sonora acelera automaticamente quando o personagem entra no modo estrel
 ## 📁 Estrutura do Projeto
 
 ```
-Zoo-Chaos/
+zoo-chaos/
 ├── assets/
 │   ├── backgrounds/     sprites de background (bg0.png … bg6.png)
 │   ├── entidades/       spritesheets do player e inimigos
@@ -203,8 +203,8 @@ sudo pacman -S gcc make allegro
 
 1. Clone o repositório:
    ```sh
-   git clone https://github.com/GiuTP/Zoo-Chaos.git
-   cd Zoo-Chaos
+   git clone https://github.com/giutp/zoo-chaos.git
+   cd zoo-chaos
    ```
 
 2. Compile:
@@ -255,11 +255,11 @@ As artes do jogo — sprites, backgrounds, menus e demais visuais — são de **
 
 ## 📬 Contato
 
-GiuTP — [github.com/GiuTP](https://github.com/GiuTP)
+giutp — [github.com/giutp](https://github.com/giutp)
 
 E-mail — giulianotpt@gmail.com
 
-Link do projeto: [https://github.com/GiuTP/Zoo-Chaos](https://github.com/GiuTP/Zoo-Chaos)
+Link do projeto: [https://github.com/giutp/zoo-chaos](https://github.com/giutp/zoo-chaos)
 
 <p align="right">(<a href="#readme-top">voltar ao topo</a>)</p>
 
@@ -275,12 +275,12 @@ Link do projeto: [https://github.com/GiuTP/Zoo-Chaos](https://github.com/GiuTP/Z
 ---
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[stars-shield]: https://img.shields.io/github/stars/GiuTP/Zoo-Chaos.svg?style=for-the-badge
-[stars-url]: https://github.com/GiuTP/Zoo-Chaos/stargazers
-[issues-shield]: https://img.shields.io/github/issues/GiuTP/Zoo-Chaos.svg?style=for-the-badge
-[issues-url]: https://github.com/GiuTP/Zoo-Chaos/issues
-[license-shield]: https://img.shields.io/github/license/GiuTP/Zoo-Chaos.svg?style=for-the-badge
-[license-url]: https://github.com/GiuTP/Zoo-Chaos/blob/main/LICENSE
+[stars-shield]: https://img.shields.io/github/stars/giutp/zoo-chaos.svg?style=for-the-badge
+[stars-url]: https://github.com/giutp/zoo-chaos/stargazers
+[issues-shield]: https://img.shields.io/github/issues/giutp/zoo-chaos.svg?style=for-the-badge
+[issues-url]: https://github.com/giutp/zoo-chaos/issues
+[license-shield]: https://img.shields.io/github/license/giutp/zoo-chaos.svg?style=for-the-badge
+[license-url]: https://github.com/giutp/zoo-chaos/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/giuliano-tavares/
 [C-badge]: https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white
